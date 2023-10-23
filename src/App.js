@@ -1,24 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import useApi from "./hooks/useApi";
+import Child from "./Child";
 
-function App() {
+const App = () => {
+  const { data, setData, getData, login } = useApi();
+
+  const clear = () => {
+    if (localStorage.getItem('accessToken')) {
+      console.log('logged in!');
+    }
+    login();
+    setData([]);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+    <React.Fragment>
+      <>
+        <button onClick={clear}>clear</button>
+        <button onClick={getData}>get data</button>
+        {
+          data.map((item, index) => {
+            return (
+              <div key={index}>
+                <hr />
+                <p>title: {item.title}</p>
+                <p>description: {item.description}</p>
+                <p>title: {item.email}</p>
+                <hr />
+              </div>
+            )
+          })
+        }
+      </>
+      <Child />
+    </React.Fragment>
   );
 }
 
